@@ -17,7 +17,7 @@
 // Declarative pipeline
 pipeline {
 	//agent any
-	agent { docker { image 'python:3.7.2'}}
+	agent { docker { image 'python:alpine3.10'}}
 	stages {
 		stage('Build') {
 			steps {
