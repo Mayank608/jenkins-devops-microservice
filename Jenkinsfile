@@ -16,8 +16,8 @@
 
 // Declarative pipeline
 pipeline {
-	//agent any
-	agent { docker { image 'maven:3.9.1'}}
+	agent any
+	//agent { docker { image 'maven:3.9.1'}}
 	environment {
 		dockerHome = tool 'myDocker'
 		mavenHome = tool 'myMaven'
@@ -25,23 +25,28 @@ pipeline {
 	}
 	
 	stages {
-		stage('Build') {
+		stage('Checkout') {
 			steps {
 				sh 'mvn --version'
 				sh 'docker --version'
-				echo "Build"
-				echo "$PATH"
-				echo "$env.BUILD_NUMBER"
+				echo "Checkout"
+				echo "path - $PATH"
+				echo "build_number - $env.BUILD_NUMBER"
+			}
+		}
+		stage(compile) {
+			steps {
+				sh "mvn clean compile"
 			}
 		}
 			stage('Test') {
 			steps {
-				echo "Test"
+				sh "mvn test"
 			}
 		}
-			stage('Test -2') {
+			stage('Integration Test') {
 			steps {
-				echo "Test -2 "
+				sh "mvn failsafe:integration-test failsafe:verify"
 			}
 		}
 	}
