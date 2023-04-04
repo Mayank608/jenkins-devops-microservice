@@ -16,8 +16,8 @@
 
 // Declarative pipeline
 pipeline {
-	agent any
-	//agent { docker { image 'maven:latest'}}
+	//agent any
+	agent { docker { image 'maven:3.9.1'}}
 	environment {
 		dockerHome = tool 'myDocker'
 		mavenHome = tool 'myMaven'
